@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link href="bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div>
+    <form action="reg.php" method="post">
+        <div class="form-group">
+            <label for="username">Email address</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Email">
+        </div>
+        <div id="createResult" style="font-size: 20px; font-weight: bold; color: red;"></div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+        </div>
+        <div class="form-group">
+            <label for="email">email</label>
+            <input type="text" class="form-control" id="email" name="email" placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+</div>
+<script src="jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#username").blur(function () {
+            $.ajax({
+                type: "GET",
+                url: "checkUser.php?username="+$("#username").val(),
+                dataType: "json",
+                success: function(data){
+                    if (data.success) {
+                        $("#createResult").html(data.msg);
+                    } else {
+                        $("#createResult").html("出现错误：" + data.msg);
+                    }
+                },
+                error: function(jqXHR){
+                    alert("发生错误：" + jqXHR.status);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
